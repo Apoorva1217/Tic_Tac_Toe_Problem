@@ -9,6 +9,8 @@ namespace TicTacToe
         /// </summary>
         public const int HEAD = 0;
         public const int TAILS = 1;
+        private static char computerLetter;
+
         public enum Player { USER, COMPUTER };
         static void Main(string[] args)
         {
@@ -20,6 +22,7 @@ namespace TicTacToe
             MakeMove(board, userMove, userLetter);
             Player player = GetWhoStartFirst();
             Console.WriteLine("Check if Won " + IsWinner(board, userLetter));
+            int computerMove = GetComputerMove(board, computerLetter);
         }
 
         /// <summary>
@@ -135,6 +138,52 @@ namespace TicTacToe
                 (b[3] == ch && b[6] == ch && b[9] == ch) ||
                 (b[1] == ch && b[5] == ch && b[9] == ch) ||
                 (b[7] == ch && b[5] == ch && b[3] == ch));
+        }
+
+        /// <summary>
+        /// UC8 On Computer getting its turn would like the computer to play like me
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="computterLetter"></param>
+        /// <returns></returns>
+        private static int GetComputerMove(char[] board, char computerLetter)
+        {
+            int winningMove = GetWinningMove(board, computerLetter);
+            if (winningMove != 0)
+                return winningMove;
+            return 0;
+        }
+
+        /// <summary>
+        /// Get Winning Move
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="letter"></param>
+        /// <returns></returns>
+        private static int GetWinningMove(char[] board, char letter)
+        {
+            for(int index = 1; index < board.Length; index++)
+            {
+                char[] copyOfBoard = GetCopyOfBoard(board);
+                if (IsSpaceFree(copyOfBoard, index))
+                {
+                    MakeMove(copyOfBoard, index, letter);
+                    if (IsWinner(copyOfBoard, letter))
+                        return index;
+                }
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Get Copy of Board
+        /// </summary>
+        /// <param name="board"></param>
+        /// <returns></returns>
+        private static char[] GetCopyOfBoard(char[] board)
+        {
+            char[] boardCopy = new char[10];
+            return boardCopy;
         }
     }
 }
