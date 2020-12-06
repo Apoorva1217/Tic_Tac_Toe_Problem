@@ -9,6 +9,7 @@ namespace TicTacToe
             Console.WriteLine("Welcome to Tic Tac Toe Problem!");
             char[] board = CreateBoard();
             char userLetter = ChooseUserLetter();
+            ShowBoard(board);
         }
 
         /// <summary>
@@ -32,6 +33,19 @@ namespace TicTacToe
             Console.WriteLine("Choose your letter X or O : ");
             string userLetter = Console.ReadLine();
             return char.ToUpper(userLetter[0]);
+        }
+
+        /// <summary>
+        /// UC3 Write a method showBoard to display the current Board
+        /// </summary>
+        /// <param name="board">The board.</param>
+        private static void ShowBoard(char[] board)
+        {
+            Console.WriteLine("\n " + board[1] + " | " + board[2] + " | " + board[3]);
+            Console.WriteLine("-----------");
+            Console.WriteLine(" " + board[4] + " | " + board[5] + " | " + board[6]);
+            Console.WriteLine("-----------");
+            Console.WriteLine(" " + board[7] + " | " + board[8] + " | " + board[9]);
         }
     }
 }
