@@ -11,6 +11,7 @@ namespace TicTacToe
             char userLetter = ChooseUserLetter();
             ShowBoard(board);
             int userMove = GetUserMove(board);
+            MakeMove(board, userMove, userLetter);
         }
 
         /// <summary>
@@ -75,6 +76,18 @@ namespace TicTacToe
         private static bool IsSpaceFree(char[] board, int index)
         {
             return board[index] == ' ';
+        }
+
+        /// <summary>
+        /// UC5 Ability to check for the free space before making the desired move
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="index"></param>
+        /// <param name="letter"></param>
+        private static void MakeMove(char[] board, int index, char letter)
+        {
+            bool spaceFree = IsSpaceFree(board, index);
+            if (spaceFree) board[index] = letter;
         }
     }
 }
