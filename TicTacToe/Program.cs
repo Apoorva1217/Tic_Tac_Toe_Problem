@@ -19,6 +19,7 @@ namespace TicTacToe
             int userMove = GetUserMove(board);
             MakeMove(board, userMove, userLetter);
             Player player = GetWhoStartFirst();
+            Console.WriteLine("Check if Won " + IsWinner(board, userLetter));
         }
 
         /// <summary>
@@ -116,6 +117,24 @@ namespace TicTacToe
         {
             Random random = new Random();
             return (int)(random.Next() * 10) % choices;
+        }
+
+        /// <summary>
+        /// UC7 As player would expect the Tic Tac Toe App to determine after every move the winner or the tie or change the turn
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="ch"></param>
+        /// <returns></returns>
+        private static bool IsWinner(char[] b, char ch)
+        {
+            return ((b[1] == ch && b[2] == ch && b[3] == ch) ||
+                (b[4] == ch && b[5] == ch && b[6] == ch) ||
+                (b[7] == ch && b[8] == ch && b[9] == ch) ||
+                (b[1] == ch && b[4] == ch && b[7] == ch) ||
+                (b[2] == ch && b[5] == ch && b[8] == ch) ||
+                (b[3] == ch && b[6] == ch && b[9] == ch) ||
+                (b[1] == ch && b[5] == ch && b[9] == ch) ||
+                (b[7] == ch && b[5] == ch && b[3] == ch));
         }
     }
 }
