@@ -4,6 +4,12 @@ namespace TicTacToe
 {
     public class Program
     {
+        /// <summary>
+        /// Constants
+        /// </summary>
+        public const int HEAD = 0;
+        public const int TAILS = 1;
+        public enum Player { USER, COMPUTER };
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Tic Tac Toe Problem!");
@@ -12,6 +18,7 @@ namespace TicTacToe
             ShowBoard(board);
             int userMove = GetUserMove(board);
             MakeMove(board, userMove, userLetter);
+            Player player = GetWhoStartFirst();
         }
 
         /// <summary>
@@ -88,6 +95,27 @@ namespace TicTacToe
         {
             bool spaceFree = IsSpaceFree(board, index);
             if (spaceFree) board[index] = letter;
+        }
+
+        /// <summary>
+        /// UC6 As a User would like to do a toss to check who plays first.
+        /// </summary>
+        /// <returns></returns>
+        private static Player GetWhoStartFirst()
+        {
+            int toss = GetOneFromRandomChoices(2);
+            return (toss == HEAD) ? Player.USER : Player.COMPUTER;
+        }
+
+        /// <summary>
+        /// Get the one from random choices
+        /// </summary>
+        /// <param name="choices"></param>
+        /// <returns></returns>
+        private static int GetOneFromRandomChoices(int choices)
+        {
+            Random random = new Random();
+            return (int)(random.Next() * 10) % choices;
         }
     }
 }
