@@ -8,6 +8,7 @@ namespace TicTacToe
         {
             Console.WriteLine("Welcome to Tic Tac Toe Problem!");
             char[] board = CreateBoard();
+            char userLetter = ChooseUserLetter();
         }
 
         /// <summary>
@@ -21,6 +22,16 @@ namespace TicTacToe
                 board[index] = ' ';
             }
             return board;
+        }
+
+        /// <summary>
+        /// UC2 Ability to allow the player to choose a letter X or O
+        /// </summary>
+        private static char ChooseUserLetter()
+        {
+            Console.WriteLine("Choose your letter X or O : ");
+            string userLetter = Console.ReadLine();
+            return char.ToUpper(userLetter[0]);
         }
     }
 }
