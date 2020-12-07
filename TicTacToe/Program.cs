@@ -12,17 +12,41 @@ namespace TicTacToe
         private static readonly char computerLetter;
 
         public enum Player { USER, COMPUTER };
+        public enum GameStatus { WON, FULL_BOARD, CONTINUE };
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Tic Tac Toe Problem!");
             char[] board = CreateBoard();
-            ShowBoard(board);
-            int userMove = GetUserMove(board);
             Player player = GetWhoStartFirst();
             char userLetter = ChooseUserLetter();
             char computerLetter = (userLetter == 'X') ? 'O' : 'X';
             Console.WriteLine("Check if Won " + IsWinner(board, userLetter));
-            int computerMove = GetComputerMove(board, computerLetter, userLetter);
+            bool gameIsPlaying = true;
+            GameStatus gameStatus;
+
+            while (gameIsPlaying)
+            {
+                //Players Turn
+                if (player.Equals(Player.USER))
+                {
+                    ShowBoard(board);
+                    int userMove = GetUserMove(board);
+                    string wonMessage = "Hurray! You have won the game!";
+                    gameStatus = GetGameStatus(board, userMove, userLetter, wonMessage);
+                    player = Player.COMPUTER;
+                }
+                else
+                {
+                    //Computer Turn
+                    string wonMessage = "The Computer has beaten you! You lose.";
+                    int computerMove = GetComputerMove(board, computerLetter, userLetter);
+                    gameStatus = GetGameStatus(board, computerMove, computerLetter, wonMessage);
+                    player = Player.USER;
+                }
+                if (gameStatus.Equals(GameStatus.CONTINUE)) 
+                    continue;
+                gameIsPlaying = false;
+            }
         }
 
         /// <summary>
@@ -219,6 +243,47 @@ namespace TicTacToe
                     return moves[index];
             }
             return 0;
+        }
+
+        /// <summary>
+        /// UC12 As a Player would play till the game is over i.e Till the board is full or If one of the players win
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="move"></param>
+        /// <param name="letter"></param>
+        /// <param name="wonMessage"></param>
+        /// <returns></returns>
+        public static GameStatus GetGameStatus(char[] board, int move, char letter, string wonMessage)
+        {
+            MakeMove(board, move, letter);
+            if (IsWinner(board, letter))
+            {
+                ShowBoard(board);
+                Console.WriteLine(wonMessage);
+                return GameStatus.WON;
+            }
+            if (IsBoardFull(board))
+            {
+                ShowBoard(board);
+                Console.WriteLine("Game is Tie");
+                return GameStatus.FULL_BOARD;
+            }
+            return GameStatus.CONTINUE;
+        }
+
+        /// <summary>
+        /// Check Board is full
+        /// </summary>
+        /// <param name="board"></param>
+        /// <returns></returns>
+        public static bool IsBoardFull(char[] board)
+        {
+            for (int index = 1; index < board.Length; index++)
+            {
+                if (IsSpaceFree(board, index)) 
+                    return false;
+            }
+            return true;
         }
     }
 }
