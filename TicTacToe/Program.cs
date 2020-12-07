@@ -9,13 +9,12 @@ namespace TicTacToe
         /// </summary>
         public const int HEAD = 0;
         public const int TAILS = 1;
-        private static readonly char computerLetter;
 
         public enum Player { USER, COMPUTER };
         public enum GameStatus { WON, FULL_BOARD, CONTINUE };
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Tic Tac Toe Problem!");
+            PlayAgain: Console.WriteLine("Welcome to Tic Tac Toe Problem!");
             char[] board = CreateBoard();
             Player player = GetWhoStartFirst();
             char userLetter = ChooseUserLetter();
@@ -45,6 +44,8 @@ namespace TicTacToe
                 }
                 if (gameStatus.Equals(GameStatus.CONTINUE)) 
                     continue;
+                if (PlayAgain())
+                    goto PlayAgain;
                 gameIsPlaying = false;
             }
         }
@@ -284,6 +285,19 @@ namespace TicTacToe
                     return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// UC13 Ability for the user to continue playing another Tic Tac Toe Game. Ask user for another game.
+        /// </summary>
+        /// <returns></returns>
+        public static bool PlayAgain()
+        {
+            Console.WriteLine("Do you want to Play Again? (yes/no)");
+            string option = Console.ReadLine().ToLower();
+            if (option.Equals("yes"))
+                return true;
+            return false;
         }
     }
 }
