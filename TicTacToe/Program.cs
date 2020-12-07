@@ -9,7 +9,7 @@ namespace TicTacToe
         /// </summary>
         public const int HEAD = 0;
         public const int TAILS = 1;
-        private static char computerLetter;
+        private static readonly char computerLetter;
 
         public enum Player { USER, COMPUTER };
         static void Main(string[] args)
@@ -22,7 +22,7 @@ namespace TicTacToe
             MakeMove(board, userMove, userLetter);
             Player player = GetWhoStartFirst();
             Console.WriteLine("Check if Won " + IsWinner(board, userLetter));
-            int computerMove = GetComputerMove(board, computerLetter);
+            int computerMove = GetComputerMove(board, computerLetter, userLetter);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace TicTacToe
                 Console.WriteLine("\nWhat is your next move? (1-9) : ");
                 int index = Convert.ToInt32(Console.ReadLine());
                 if (Array.Find<int>(validCells, element => element == index) != 0 && IsSpaceFree(board, index));
-                return index;
+                    return index;
             }
         }
 
@@ -98,7 +98,8 @@ namespace TicTacToe
         private static void MakeMove(char[] board, int index, char letter)
         {
             bool spaceFree = IsSpaceFree(board, index);
-            if (spaceFree) board[index] = letter;
+            if (spaceFree) 
+                board[index] = letter;
         }
 
         /// <summary>
@@ -142,15 +143,19 @@ namespace TicTacToe
 
         /// <summary>
         /// UC8 On Computer getting its turn would like the computer to play like me
+        /// UC9 Next thing I do is check if my Opponent can win then play to block it
         /// </summary>
         /// <param name="board"></param>
         /// <param name="computterLetter"></param>
         /// <returns></returns>
-        private static int GetComputerMove(char[] board, char computerLetter)
+        private static int GetComputerMove(char[] board, char computerLetter, char userLetter)
         {
             int winningMove = GetWinningMove(board, computerLetter);
             if (winningMove != 0)
                 return winningMove;
+            int userWinningMove = GetWinningMove(board, userLetter);
+            if (userWinningMove != 0) 
+                return userWinningMove;
             return 0;
         }
 
@@ -183,6 +188,7 @@ namespace TicTacToe
         private static char[] GetCopyOfBoard(char[] board)
         {
             char[] boardCopy = new char[10];
+            Array.Copy(board, 0, boardCopy, 0, board.Length);
             return boardCopy;
         }
     }
