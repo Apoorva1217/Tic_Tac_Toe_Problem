@@ -144,6 +144,7 @@ namespace TicTacToe
         /// <summary>
         /// UC8 On Computer getting its turn would like the computer to play like me
         /// UC9 Next thing I do is check if my Opponent can win then play to block it
+        /// UC10 If neither of us are winning then My first choice would be to take one of the available corners
         /// </summary>
         /// <param name="board"></param>
         /// <param name="computterLetter"></param>
@@ -156,6 +157,10 @@ namespace TicTacToe
             int userWinningMove = GetWinningMove(board, userLetter);
             if (userWinningMove != 0) 
                 return userWinningMove;
+            int[] cornerMoves = { 1, 3, 7, 9 };
+            int computerMove = GetRandomMoveFromList(board, cornerMoves);
+            if (computerMove != 0) 
+                return computerMove;
             return 0;
         }
 
@@ -190,6 +195,22 @@ namespace TicTacToe
             char[] boardCopy = new char[10];
             Array.Copy(board, 0, boardCopy, 0, board.Length);
             return boardCopy;
+        }
+
+        /// <summary>
+        /// UC10 If neither of us are winning then My first choice would be to take one of the available corners
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="moves"></param>
+        /// <returns></returns>
+        public static int GetRandomMoveFromList(char[] board, int[] moves)
+        {
+            for (int index = 0; index < moves.Length; index++)
+            {
+                if (IsSpaceFree(board, moves[index])) 
+                    return moves[index];
+            }
+            return 0;
         }
     }
 }
