@@ -16,11 +16,11 @@ namespace TicTacToe
         {
             Console.WriteLine("Welcome to Tic Tac Toe Problem!");
             char[] board = CreateBoard();
-            char userLetter = ChooseUserLetter();
             ShowBoard(board);
             int userMove = GetUserMove(board);
-            MakeMove(board, userMove, userLetter);
             Player player = GetWhoStartFirst();
+            char userLetter = ChooseUserLetter();
+            char computerLetter = (userLetter == 'X') ? 'O' : 'X';
             Console.WriteLine("Check if Won " + IsWinner(board, userLetter));
             int computerMove = GetComputerMove(board, computerLetter, userLetter);
         }
@@ -145,6 +145,9 @@ namespace TicTacToe
         /// UC8 On Computer getting its turn would like the computer to play like me
         /// UC9 Next thing I do is check if my Opponent can win then play to block it
         /// UC10 If neither of us are winning then My first choice would be to take one of the available corners
+        /// UC11 My Subsequent Choices will be
+        /// - If the corners are not available then take the Centre
+        /// - Lastly any of the available sides
         /// </summary>
         /// <param name="board"></param>
         /// <param name="computterLetter"></param>
@@ -159,6 +162,11 @@ namespace TicTacToe
                 return userWinningMove;
             int[] cornerMoves = { 1, 3, 7, 9 };
             int computerMove = GetRandomMoveFromList(board, cornerMoves);
+            if (computerMove != 0) 
+                return computerMove;
+            if (IsSpaceFree(board, 5)) return 5; //center move
+            int[] sideMoves = { 2, 4, 6, 8 };
+            computerMove = GetRandomMoveFromList(board, sideMoves);
             if (computerMove != 0) 
                 return computerMove;
             return 0;
